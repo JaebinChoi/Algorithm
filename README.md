@@ -1,2 +1,5 @@
-# JUNGOL
-정올 사이트 코딩 연습
+# Algorithm
+알고리즘 코딩 연습
+정올
+백준
+SW Expert Academy
