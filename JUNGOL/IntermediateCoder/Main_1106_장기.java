@@ -12,7 +12,7 @@ public class Main_1106_장기 {
 	static int hr, hc, er, ec;
 	static int[][] map;
 	static int count;
-	static int[][] dir = { { -2, -1 }, { -2, -1 }, { 1, -2 }, { 2, -1 }, { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 } };
+	static int[][] dir = { { -2, -1 }, { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 } };
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
