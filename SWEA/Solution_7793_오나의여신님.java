@@ -63,7 +63,6 @@ public class Solution_7793_오나의여신님 {
 			Point point = queue.poll();
 			int r = point.row;
 			int c = point.col;
-			int time = point.time;
 			boolean isGoddess = point.isGoddess;
 
 			// 여신 이동할 차례인데 악마가 덮친 곳
@@ -80,7 +79,7 @@ public class Solution_7793_오나의여신님 {
 
 				// 여신이 여신의 공간에 도착했을 경우
 				if (map[nr][nc] == 'D' && isGoddess) {
-					result = time + 1;
+					result = point.time + 1;
 					return;
 				}
 
@@ -92,7 +91,7 @@ public class Solution_7793_오나의여신님 {
 					visited[nr][nc] = true;
 
 				map[nr][nc] = map[r][c];
-				queue.offer(new Point(nr, nc, time + 1, isGoddess));
+				queue.offer(new Point(nr, nc, point.time + 1, isGoddess));
 			}
 		}
 	}
