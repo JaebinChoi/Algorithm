@@ -13,6 +13,18 @@ public class Solution_7793_오나의여신님 {
 	static int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, -1 }, { 0, 1 } };
 	static int result;
 
+	static class Point {
+		int row, col, time;
+		boolean isGoddess;
+
+		public Point(int row, int col, int time, boolean isGoddess) {
+			this.row = row;
+			this.col = col;
+			this.time = time;
+			this.isGoddess = isGoddess;
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("res/오나의여신님.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,16 +38,16 @@ public class Solution_7793_오나의여신님 {
 			visited = new boolean[R][C];
 			result = 0;
 
-			LinkedList<int[]> queue = new LinkedList<>();
+			LinkedList<Point> queue = new LinkedList<>();
 			for (int i = 0; i < R; i++) {
 				String line = br.readLine();
 				for (int j = 0; j < C; j++) {
 					map[i][j] = line.charAt(j);
 					if (map[i][j] == 'S') {
 						visited[i][j] = true;
-						queue.offerFirst(new int[] { i, j, 0, 1 });
+						queue.offerFirst(new Point(i, j, 0, true));
 					} else if (map[i][j] == '*') {
-						queue.offer(new int[] { i, j, 0, -1 });
+						queue.offer(new Point(i, j, 0, false));
 					}
 				}
 			}
@@ -46,16 +58,16 @@ public class Solution_7793_오나의여신님 {
 		}
 	}
 
-	private static void bfs(LinkedList<int[]> queue) {
+	private static void bfs(LinkedList<Point> queue) {
 		while (!queue.isEmpty()) {
-			int[] temp = queue.poll();
-			int r = temp[0];
-			int c = temp[1];
-			int time = temp[2];
-			int isGoddess = temp[3];
+			Point point = queue.poll();
+			int r = point.row;
+			int c = point.col;
+			int time = point.time;
+			boolean isGoddess = point.isGoddess;
 
 			// 여신 이동할 차례인데 악마가 덮친 곳
-			if (map[r][c] == '*' && isGoddess == 1)
+			if (map[r][c] == '*' && isGoddess)
 				continue;
 
 			for (int i = 0; i < 4; i++) {
@@ -63,11 +75,11 @@ public class Solution_7793_오나의여신님 {
 				int nc = c + dir[i][1];
 
 				// 영역 밖, 여신이 방문한 곳
-				if (nr < 0 || nr >= R || nc < 0 || nc >= C || (isGoddess == 1 && visited[nr][nc]))
+				if (nr < 0 || nr >= R || nc < 0 || nc >= C || (isGoddess && visited[nr][nc]))
 					continue;
 
 				// 여신이 여신의 공간에 도착했을 경우
-				if (map[nr][nc] == 'D' && isGoddess == 1) {
+				if (map[nr][nc] == 'D' && isGoddess) {
 					result = time + 1;
 					return;
 				}
@@ -76,11 +88,11 @@ public class Solution_7793_오나의여신님 {
 				if (map[nr][nc] == '*' || map[nr][nc] == 'X' || map[nr][nc] == 'D')
 					continue;
 
-				if (isGoddess == 1)
+				if (isGoddess)
 					visited[nr][nc] = true;
-				
+
 				map[nr][nc] = map[r][c];
-				queue.offer(new int[] { nr, nc, time + 1, isGoddess });
+				queue.offer(new Point(nr, nc, time + 1, isGoddess));
 			}
 		}
 	}
