@@ -6,10 +6,10 @@ import java.util.StringTokenizer;
 
 public class Solution_5644_무선충전 {
 	static int M, A;
-	static int[] moveA, moveB;
 	static BC[] bc;
-	static int[][] dir = { { 0, 0 }, { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 	static User userA, userB;
+	static int[] moveA, moveB;
+	static int[][] dir = { { 0, 0 }, { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
 	static class User {
 		int x;
@@ -28,15 +28,14 @@ public class Solution_5644_무선충전 {
 		int coverage;
 		int performance;
 
+		public BC() {
+		}
+
 		public BC(int x, int y, int idx, int coverage, int performance) {
 			this.x = x;
 			this.y = y;
 			this.idx = idx;
 			this.coverage = coverage;
-			this.performance = performance;
-		}
-
-		public BC(int performance) {
 			this.performance = performance;
 		}
 
@@ -73,11 +72,11 @@ public class Solution_5644_무선충전 {
 
 			userA = new User(1, 1);
 			userB = new User(10, 10);
-			
+
 			int sum = 0;
 			for (int i = 0; i <= M; i++)
 				sum += Action(i);
-			
+
 			System.out.println("#" + tc + " " + sum);
 		} // testcase
 	} // main
@@ -85,14 +84,13 @@ public class Solution_5644_무선충전 {
 	private static int Action(int i) {
 		LinkedList<BC> queueA = new LinkedList<>();
 		LinkedList<BC> queueB = new LinkedList<>();
-		int share = 1; // 공유할 경우 2
-		
+
 		userA = move(userA, i, moveA);
 		userB = move(userB, i, moveB);
 
-		queueA.offer(new BC(0));
-		queueB.offer(new BC(0));
-		
+		queueA.offer(new BC());
+		queueB.offer(new BC());
+
 		for (int j = 1; j <= A; j++) {
 			if (isRange(userA, bc[j]))
 				queueA.offer(bc[j]);
@@ -106,23 +104,20 @@ public class Solution_5644_무선충전 {
 
 		// 속한 BC가 같으면
 		if (queueA.get(0).idx == queueB.get(0).idx) {
-			// A,B가 속한 BC 개수가 1개일 경우 공유
-			if (queueA.size() == 1 && queueB.size() == 1) {
-				share = 2;
-			} else if (queueA.size() == 1) { // A가 1개이면 B가 속한 다음 BC를 이용
+			if (queueA.size() == 1 && queueB.size() == 1) // 둘다 속한 BC가 없음
+				return 0;
+			else if (queueA.size() == 1) // A가 1개이면 B가 속한 다음 BC를 이용
 				queueB.poll();
-			} else if (queueB.size() == 1) { // B가 1개이면 A가 속한 다음 BC를 이용
+			else if (queueB.size() == 1) // B가 1개이면 A가 속한 다음 BC를 이용
 				queueA.poll();
-			} else { // A,B가 속한 BC 개수가 2개 이상 => 다음 BC의 성능이 더 높은 것을 이용
-				if (queueA.get(1).performance > queueB.get(1).performance) {
+			else { // A,B가 속한 BC 개수가 2개 이상 => 다음 BC의 성능이 더 높은 것을 이용
+				if (queueA.get(1).performance > queueB.get(1).performance)
 					queueA.remove(0);
-				} else {
+				else
 					queueB.remove(0);
-				}
 			}
 		}
-
-		return (queueA.get(0).performance + queueB.get(0).performance) / share;
+		return queueA.get(0).performance + queueB.get(0).performance;
 	}
 
 	private static LinkedList<BC> sort(LinkedList<BC> queue) {
