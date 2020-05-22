@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Solution_4013_특이한자석 {
-	static final int MAGNUM = 4; // 자석 개수
-	static final int TOOTHNUM = 8; // 톱니 개수
+	static final int MAGNUM = 4; 	// 자석 개수
+	static final int TOOTHNUM = 8; 	// 톱니 개수
 	static int K;
-	static LinkedList<Integer>[] magnet; // 1 : N 0 : S
+	static LinkedList<Integer>[] magnet; // 1:N  0:S
 	static boolean[] visited;
 
 	public static void main(String[] args) throws Exception {
@@ -33,8 +33,8 @@ public class Solution_4013_특이한자석 {
 			// 회전
 			for (int i = 0; i < K; i++) {
 				st = new StringTokenizer(br.readLine(), " ");
-				int magIdx = Integer.parseInt(st.nextToken()); // 회전시킬 자석
-				int dir = Integer.parseInt(st.nextToken()); // 회전방향
+				int magIdx = Integer.parseInt(st.nextToken()); 	// 회전시킬 자석
+				int dir = Integer.parseInt(st.nextToken()); 	// 회전방향
 				
 				visited = new boolean[MAGNUM + 1];
 				rotation(magIdx, dir);
@@ -65,17 +65,13 @@ public class Solution_4013_특이한자석 {
 
 	private static boolean isAble(int magIdx, String motion) {
 		if(motion.equals("Right")) {
-			// 오른쪽 자석 작업
-			if (isIn(magIdx + 1) && !visited[magIdx + 1]) {
-				// 극이 다르면 회전
-				if (magnet[magIdx].get(2) != magnet[magIdx + 1].get(6))
+			if (isIn(magIdx + 1) && !visited[magIdx + 1]) { 			// 오른쪽 자석 작업
+				if (magnet[magIdx].get(2) != magnet[magIdx + 1].get(6)) // 극이 다르면 회전
 					return true;
 			}
 		} else {
-			// 왼쪽 자석 작업
-			if (isIn(magIdx - 1) && !visited[magIdx - 1]) {
-				// 극이 다르면 회전
-				if (magnet[magIdx].get(6) != magnet[magIdx - 1].get(2))
+			if (isIn(magIdx - 1) && !visited[magIdx - 1]) { 			// 왼쪽 자석 작업
+				if (magnet[magIdx].get(6) != magnet[magIdx - 1].get(2)) // 극이 다르면 회전
 					return true;
 			}
 		}
@@ -86,12 +82,12 @@ public class Solution_4013_특이한자석 {
 	private static void rotationLeft(int idx) {
 		magnet[idx].offerLast(magnet[idx].pollFirst());
 	}
-
+	
 	// 시계방향 회전
 	private static void rotationRight(int idx) {
 		magnet[idx].offerFirst(magnet[idx].pollLast());
 	}
-
+	
 	private static boolean isIn(int idx) {
 		return idx > 0 && idx <= MAGNUM;
 	}
