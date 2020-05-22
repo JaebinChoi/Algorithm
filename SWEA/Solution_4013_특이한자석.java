@@ -1,7 +1,5 @@
-package staging;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -52,40 +50,36 @@ public class Solution_4013_특이한자석 {
 
 	// 회전
 	private static void rotation(int magIdx, int dir) {
-		int left = magnet[magIdx].get(2);
-		int right = magnet[magIdx].get(6);
 		visited[magIdx] = true;
 
 		if (dir == 1) { // 시계방향
+			if(isAble(magIdx, "Right")) rotation(magIdx + 1, 0);
+			if(isAble(magIdx, "Left"))  rotation(magIdx - 1, 0);
 			rotationRight(magIdx);
+		} else { // 반시계방향
+			if(isAble(magIdx, "Right")) rotation(magIdx + 1, 1);
+			if(isAble(magIdx, "Left"))  rotation(magIdx - 1, 1);
+			rotationLeft(magIdx);
+		}
+	}
 
+	private static boolean isAble(int magIdx, String motion) {
+		if(motion.equals("Right")) {
 			// 오른쪽 자석 작업
 			if (isIn(magIdx + 1) && !visited[magIdx + 1]) {
 				// 극이 다르면 회전
-				if (left != magnet[magIdx + 1].get(6))
-					rotation(magIdx + 1, 0);
+				if (magnet[magIdx].get(2) != magnet[magIdx + 1].get(6))
+					return true;
 			}
-
-			// 왼족 자석 작업
+		} else {
+			// 왼쪽 자석 작업
 			if (isIn(magIdx - 1) && !visited[magIdx - 1]) {
 				// 극이 다르면 회전
-				if (right != magnet[magIdx - 1].get(2))
-					rotation(magIdx - 1, 0);
-			}
-
-		} else { // 반시계방향
-			rotationLeft(magIdx);
-
-			if (isIn(magIdx + 1) && !visited[magIdx + 1]) {
-				if (left != magnet[magIdx + 1].get(6))
-					rotation(magIdx + 1, 1);
-			}
-
-			if (isIn(magIdx - 1) && !visited[magIdx - 1]) {
-				if (right != magnet[magIdx - 1].get(2))
-					rotation(magIdx - 1, 1);
+				if (magnet[magIdx].get(6) != magnet[magIdx - 1].get(2))
+					return true;
 			}
 		}
+		return false;
 	}
 
 	// 반시계방향 회전
