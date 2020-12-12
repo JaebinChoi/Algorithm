@@ -24,7 +24,7 @@ class Solution_단속카메라 {
 				camera = out;
 				++result;
 			} else {
-				// 다음 차량의 지출 지점이 카메라 위치보다 앞이면 카메라 이동
+				// 다음 차량의 진출 지점이 카메라 위치보다 앞이면 카메라 이동
 				if (out < camera) {
 					camera = out;
 				}
