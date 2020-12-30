@@ -35,7 +35,7 @@ class Solution_베스트앨범 {
 		Collections.sort(songs); 									// 재생횟수로 노래 정렬
 		ArrayList<Integer> list_plays = new ArrayList<Integer>(); 	// 베스트 앨범
 		
-		for (int i = 0, size = list_genres.size(); i < size; i++) {
+		for (int i = 0, size = list_genres.size(); i < size; i++) {	// 정렬된 장르 순으로 노래를 뽑아보자!
 			int cnt = 0;
 
 			for (Song song : songs) {
