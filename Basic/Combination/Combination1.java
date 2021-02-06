@@ -1,5 +1,3 @@
-package com.ssafy.combination;
-
 import java.util.Arrays;
 import java.util.Scanner;
 
